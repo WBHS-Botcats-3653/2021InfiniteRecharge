@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.drive;
 import frc.robot.subsystems.driveSensors;
 public class autoTurn extends CommandBase {
@@ -27,16 +26,17 @@ public class autoTurn extends CommandBase {
     m_drive = subsystem1;
     m_gyro = subsystem2;
     angle = theta;
-    
     initial_heading = m_gyro.getAngle();
-    addRequirements(m_drive);
-    // Use addRequirements() here to declare subsystem dependencies.
     
+    addRequirements(m_drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
+    m_gyro.resetGyro();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

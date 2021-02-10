@@ -11,11 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.*;
@@ -39,7 +35,7 @@ public class RobotContainer {
   public int climbMode = 0;
 
   // Initiates options-list for the auto command
-  private SendableChooser<Command> autoCommand = new SendableChooser();
+  private SendableChooser<Command> autoCommand = new SendableChooser<>();
 
   // Initiates camera object
   private UsbCamera cam0 = null;
@@ -57,30 +53,16 @@ public class RobotContainer {
   private final driveSensors m_drivesensors = new driveSensors();
   private final digitalinputs m_digital = new digitalinputs();
   private final XboxController m_controller = new XboxController(0);
-  private  final ultrasonic m_ultra = new ultrasonic();
 
   public RobotContainer() {
 
-    // Creates the different auto command options.
-    // First option drives straight off the init-
-    // iation line, second aims and shoots 3 balls
-    // first. Second is the default.
-    autoCommand.addOption("Move past line", new autoDrive(m_drive,m_drivesensors,-8));
-    autoCommand.setDefaultOption("Shoot 3, move past line", 
-    new ParallelCommandGroup(
-      new SequentialCommandGroup(
-        new WaitCommand(Constants.shootTiming),
-        new autoAim(m_lime,m_drive,()->0),
-        new autoShoot(m_con, m_digital,m_store,m_lime),
-        new autoArcade(m_drive,m_drivesensors,-4,0.5,40,0.5)
-      ),
-      new outtakeEngage(m_out,m_lime,1)/*,
-      new SequentialCommandGroup(
-        new WaitCommand(Constants.threeBallTime),
-        new autoArcade(m_drive,m_drivesensors,-4,0.5,-90,0.55)
-      )*/
-    ));
-    SmartDashboard.putData("Auto Command",autoCommand);
+    // Creates the different auto command options 
+    // according to the path and color. The commands are 
+    // the same but with different inputs for distance 
+    // to drive and angle to turn.
+    
+    
+    SmartDashboard.putData("Select Path",autoCommand);
     
     // Starts camera and configures resolution/fps
     cam0 = CameraServer.getInstance().startAutomaticCapture(0);

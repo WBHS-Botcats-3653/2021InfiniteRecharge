@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -88,6 +87,5 @@ public class digitalinputs extends SubsystemBase {
     SmartDashboard.putBoolean("photo2",getDel());
     SmartDashboard.putBoolean("photo3",getOut());
     SmartDashboard.putNumber("outCounter",outCounter.get());
-    boolean outValPre = getOut();
   }
 }

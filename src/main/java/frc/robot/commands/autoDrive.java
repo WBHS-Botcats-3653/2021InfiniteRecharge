@@ -19,40 +19,32 @@ public class autoDrive extends CommandBase {
   driveSensors m_encoders = null;
   double distance;
   double direction;
-  double init_angle;
   boolean flag;
+  double heading_stable;
   
   public autoDrive(drive subsystem1, driveSensors subsystem2, double dist) {
     flag = false;
     m_drive = subsystem1;
     m_encoders = subsystem2;
     distance = dist;
-    init_angle = m_encoders.getAngle();
-
     direction = distance/Math.abs(distance);
-    m_encoders.resetEncoders();
+    heading_stable = 0;
     addRequirements(m_drive);
-    // Use addRequirements() here to declare subsystem dependencies.
+    
     
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    m_encoders.resetEncoders();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double angle = m_encoders.getAngle();
-    double heading_stable = 0;
-    double error = (Math.abs(distance-m_encoders.getLeftDistance()))/distance;
-
-    if(angle<init_angle){
-      angle = Constants.minTurn;
-    } else if (angle>init_angle){
-      angle = -1*Constants.minTurn;
-    }
 
     if(Math.abs(m_encoders.getLeftDistance())<Math.abs(distance)){
       m_drive.differentialDrive(Constants.autoDrive*direction,heading_stable);

@@ -9,16 +9,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -62,9 +55,9 @@ public class drive extends SubsystemBase {
     m_drive = new DifferentialDrive(m_leftDrive,m_rightDrive);
   }
 
-  public void differentialDrive(double angle, double speed){
-    SmartDashboard.putNumber("rotation", angle);
+  public void differentialDrive(double speed, double angle){
     SmartDashboard.putNumber("speed", speed);
+    SmartDashboard.putNumber("rotation", angle);
     m_drive.arcadeDrive(speed,angle);
   }
 
