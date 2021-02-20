@@ -58,7 +58,8 @@ public class RobotContainer {
 
     // Creates the different auto command options 
     
-    autoCommand.addOption("Galactic Search", new GalacticAutoTurn(m_drive, m_lime, m_drivesensors));
+    autoCommand.addOption("Galactic Search Test Turn", new GalacticAutoTurn(m_drive, m_lime, m_drivesensors));
+    autoCommand.addOption("Galactic Search Test Drive", new GalacticAutoDrive(m_drive, m_lime, m_drivesensors));
     
     SmartDashboard.putData("Choose Auto",autoCommand);
     
