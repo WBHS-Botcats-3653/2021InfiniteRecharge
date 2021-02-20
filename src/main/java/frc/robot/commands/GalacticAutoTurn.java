@@ -54,8 +54,10 @@ public class GalacticAutoTurn extends CommandBase {
     error = difference/target;
     turnspeed = direction * error * kP;
 
-    //If angle is within 5 degrees of Power Cell, command ends
-    if(difference < 5) {
+    m_drive.differentialDrive(0, turnspeed);
+
+    //If angle is within 1 degree of Power Cell, command ends
+    if(difference < 1) {
 
       flag = true;
 
@@ -64,8 +66,6 @@ public class GalacticAutoTurn extends CommandBase {
     SmartDashboard.putNumber("GalacticAutoTurn difference", difference);
     SmartDashboard.putNumber("GalacticAutoTurn error", error);
     SmartDashboard.putNumber("GalacticAutoTurn Speed", turnspeed);
-    m_drive.differentialDrive(0, turnspeed);
-
 
   }
 

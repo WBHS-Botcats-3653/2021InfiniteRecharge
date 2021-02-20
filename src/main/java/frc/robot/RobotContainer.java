@@ -64,9 +64,10 @@ public class RobotContainer {
     SmartDashboard.putData("Choose Auto",autoCommand);
     
     // Starts camera and configures resolution/fps
-    cam0 = CameraServer.getInstance().startAutomaticCapture(0);
-		cam0.setResolution(72, 45);
-		cam0.setFPS(20);
+    
+    // cam0 = CameraServer.getInstance().startAutomaticCapture(0);
+		// cam0.setResolution(72, 45);
+		// cam0.setFPS(20);
 
     // Sets default drive command. Lambdas are used 
     // to pass analog inputs, arithmetic calculates
@@ -192,7 +193,7 @@ public class RobotContainer {
     //(climbMode.negate()).and(rightBump).whenActive(new changePipeline(m_lime));
     (climbMode.negate()).and(leftBump).whenActive(new changeMode(m_lime));
     
-    // Climb mode mindings
+    // Climb mode bindings
     climbMode.and(buttonX.or(buttonB)).whileActiveOnce(new winchEngage(m_climb,1,
           () -> m_controller.getXButton(),
           () -> m_controller.getBButton()

@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -66,11 +67,21 @@ public class limelight extends SubsystemBase {
     }
   }
   
-  // distance between the center of the robot and the target
-  public double getCenterDistance(){
+  //Calculates the distance to the Power Cell. Converts the calculated degrees to radians for the
+  //tangent function to work properly
+  public double getDistance(){
     
+    double distance = 0;  
 
-    return 0.0;      
+    if(getY() < 0) {
+
+      double angle_to_target = 90 - (Math.abs(getY()) - Constants.mounting_angle);
+
+      distance = Math.tan(Math.toRadians(angle_to_target)) * Constants.lime_height; 
+
+    }
+
+    return distance;      
   }
 
   public double getShooterDistance(){

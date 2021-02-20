@@ -65,7 +65,8 @@ public class driveSensors extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("leftEncoder",getLeftDistance());
     SmartDashboard.putNumber("rightEncoder",getRightDistance());
-    SmartDashboard.putNumber("gyro", getAngle());
+    SmartDashboard.putNumber("gyro angle", getAngle());
+    SmartDashboard.putData("Gyro", gyro);
     // This method will be called once per scheduler run
   }
 }

@@ -59,10 +59,9 @@ public final class Constants {
     public static final double kP = 0.012;
     public static final double kI = 0.002;
     public static final double kD = 0.009;
-
     //Encoder constants
-    public static final double pulsesPerRotation = 4096;
-    //4*360 maybe
+    public static final double pulsesPerRotation = 251.329;
+    //4*360 maybe, circumference in inches
     public static final double wheelCircumference = 3*2*Math.PI;
 
     //Drive constants
@@ -79,4 +78,8 @@ public final class Constants {
     public static final double servoTheta1 = 37;
     public static final double servoTheta2 = 45;
     
+    //Limelight constants
+    public static final double mounting_angle = -2.23; //Angle must be negative if camera angle is below the horizontal
+    public static final double lime_height = 13; //Inches; corresponds with encoder conversion to inches
+
 }

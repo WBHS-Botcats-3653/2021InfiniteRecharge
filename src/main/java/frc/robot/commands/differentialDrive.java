@@ -35,7 +35,7 @@ public class differentialDrive extends CommandBase {
   @Override
   public void execute() {
     // activates drive with controller input
-    m_drive.differentialDrive(m_speed.getAsDouble(), -1*m_angle.getAsDouble());
+    m_drive.differentialDrive(-1*m_speed.getAsDouble(), -1*m_angle.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
