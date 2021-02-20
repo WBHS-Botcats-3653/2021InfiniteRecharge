@@ -21,18 +21,6 @@ public class limelight extends SubsystemBase {
   private NetworkTableEntry ty = null;
   private NetworkTableEntry tv = null;
 
-  //limelight constants
-  double cam_angle = 40;
-  double lime_center_angle = 40;
-
-  double lime_center_distance = 8.5;
-  double lime_shooter_distance = 7;
-
-  double height_target = 98.25;
-  double height_cam = 26.5;
-
-  //shooter constant
-  double center_shooter_distance = 12;
 
   public limelight() {
 
@@ -80,21 +68,15 @@ public class limelight extends SubsystemBase {
   
   // distance between the center of the robot and the target
   public double getCenterDistance(){
-    double lime_target_distance = (height_target-height_cam)/Math.tan(Math.toRadians(getY()+cam_angle));
-    double center_target_distance = Math.sqrt(Math.pow(lime_target_distance,2)+Math.pow(lime_center_distance,2)-2*(lime_target_distance*lime_center_distance)*Math.cos(Math.toRadians(90+lime_center_angle)));
+    
 
-    return center_target_distance;      
+    return 0.0;      
   }
 
   public double getShooterDistance(){
-    return getCenterDistance()+center_shooter_distance;
-  }
 
 
-  // angle correction since limelight is not aligned with the shooter
-  public double getCorrection(){
-    double correction = Math.toDegrees(Math.asin(lime_shooter_distance/getCenterDistance()));
-    return Math.abs(correction)*1;
+    return 0.0;
   }
 
   public double getPerfectSpeed(){
@@ -103,7 +85,7 @@ public class limelight extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // Sends the values of the limelight to SmartDashboard
     SmartDashboard.putNumber("targetX", getX());
     SmartDashboard.putNumber("targetY", getY());
     SmartDashboard.putNumber("targetW", getWidth());

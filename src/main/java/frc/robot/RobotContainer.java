@@ -57,12 +57,10 @@ public class RobotContainer {
   public RobotContainer() {
 
     // Creates the different auto command options 
-    // according to the path and color. The commands are 
-    // the same but with different inputs for distance 
-    // to drive and angle to turn.
     
+    autoCommand.addOption("Galactic Search", new GalacticAutoTurn(m_drive, m_lime, m_drivesensors));
     
-    SmartDashboard.putData("Select Path",autoCommand);
+    SmartDashboard.putData("Choose Auto",autoCommand);
     
     // Starts camera and configures resolution/fps
     cam0 = CameraServer.getInstance().startAutomaticCapture(0);
@@ -190,7 +188,6 @@ public class RobotContainer {
     (climbMode.negate()).and(buttonY.and(buttonB)).whileActiveOnce(new deliveryEngage(m_con,-1));
     (climbMode.negate()).and(buttonY.and(buttonA)).whileActiveOnce(new storageEngage(m_store,-1));
     (climbMode.negate()).and(buttonY.and(rightTrig)).whileActiveOnce(new outtakeEngage(m_out,m_lime,-1));
-    (climbMode.negate()).and(leftTrig).whileActiveOnce(new autoAim(m_lime,m_drive,() -> m_controller.getY(GenericHID.Hand.kLeft)));
     //(climbMode.negate()).and(rightBump).whenActive(new changePipeline(m_lime));
     (climbMode.negate()).and(leftBump).whenActive(new changeMode(m_lime));
     
