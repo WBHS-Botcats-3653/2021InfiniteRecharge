@@ -79,7 +79,8 @@ public final class Constants {
     public static final double servoTheta2 = 45;
     
     //Limelight constants
-    public static final double mounting_angle = -2.23; //Angle must be negative if camera angle is below the horizontal
-    public static final double lime_height = 13; //Inches; corresponds with encoder conversion to inches
+    public static final double MOUNTING_ANGLE = -2.23; //Angle must be negative if camera angle is below the horizontal
+    public static final double LIME_HEIGHT = 13; //Inches; corresponds with encoder conversion to inches
+	public static final double HEIGHT_OF_TARGET = 0; //Use for measuring distance to target above limelight
 
 }

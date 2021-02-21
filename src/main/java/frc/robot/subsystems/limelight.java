@@ -73,11 +73,17 @@ public class limelight extends SubsystemBase {
     
     double distance = 0;  
 
+    double angle_to_target = getY() + Constants.MOUNTING_ANGLE; //Calculates angle to target on the horizontal
+
     if(getY() < 0) {
 
-      double angle_to_target = 90 - (Math.abs(getY()) - Constants.mounting_angle);
+      distance = Math.abs(Constants.LIME_HEIGHT / Math.tan(Math.toRadians(angle_to_target)));
 
-      distance = Math.tan(Math.toRadians(angle_to_target)) * Constants.lime_height; 
+    }
+
+    if (getY() > 0) {
+
+      distance = Constants.HEIGHT_OF_TARGET / Math.tan(Math.toRadians(angle_to_target));
 
     }
 
