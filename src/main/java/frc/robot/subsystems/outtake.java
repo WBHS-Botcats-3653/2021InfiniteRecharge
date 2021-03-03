@@ -26,12 +26,12 @@ public class outtake extends SubsystemBase {
   }
 
   public void driveOuttake(double speed){
-    m_outtake1.set(speed*maxOut);
-    m_outtake2.set(speed*maxOut);
+    m_outtake1.set(-speed*maxOut);
+    m_outtake2.set(-speed*maxOut);
   }
 
   @Override
   public void periodic() {
-    maxOut = NetworkTableInstance.getDefault().getTable("Preferences").getEntry("maxShooter").getDouble(0.0);
+    // maxOut = NetworkTableInstance.getDefault().getTable("Preferences").getEntry("maxShooter").getDouble(0.0);
   }
 }

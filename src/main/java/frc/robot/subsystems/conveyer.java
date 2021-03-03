@@ -35,6 +35,6 @@ public class conveyer extends SubsystemBase {
 
   @Override
   public void periodic() {
-    maxConveyer = NetworkTableInstance.getDefault().getTable("Preferences").getEntry("maxConveyer").getDouble(0.0);
+    // maxConveyer = NetworkTableInstance.getDefault().getTable("Preferences").getEntry("maxConveyer").getDouble(0.0);
   }
 }

@@ -33,6 +33,6 @@ public class intake extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    maxIntake = NetworkTableInstance.getDefault().getTable("Preferences").getEntry("maxIntake").getDouble(0.0);
+    //maxIntake = NetworkTableInstance.getDefault().getTable("Preferences").getEntry("maxIntake").getDouble(0.0);
   }
 }

@@ -34,7 +34,7 @@ public class storage extends SubsystemBase {
 
   @Override
   public void periodic() {
-    maxStorage = NetworkTableInstance.getDefault().getTable("Preferences").getEntry("maxStorage").getDouble(0.0);
+    // maxStorage = NetworkTableInstance.getDefault().getTable("Preferences").getEntry("maxStorage").getDouble(0.0);
 
   }
 }

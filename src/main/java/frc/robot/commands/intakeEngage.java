@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.intake;
 
@@ -33,6 +34,7 @@ public class intakeEngage extends CommandBase {
   @Override
   public void execute() {
     m_in.driveIntake(dir);
+    DriverStation.reportError("intake error", false);
   }
 
   // Called once the command ends or is interrupted.
