@@ -40,10 +40,10 @@ public class GalacticAutoIntake extends CommandBase {
 
     timer += 0.02;
 
-    // m_in.driveIntake(Constants.GALACTIC_AUTO_INTAKE_SPEED);
-    // m_store.storageDrive(Constants.GALACTIC_AUTO_STORAGE_SPEED);
+    m_in.driveIntake(Constants.GALACTIC_AUTO_INTAKE_SPEED);
+    m_store.storageDrive(Constants.GALACTIC_AUTO_STORAGE_SPEED);
 
-    if(timer >= 2) {
+    if(timer >= 3) {
       flag = true;
     }
 
