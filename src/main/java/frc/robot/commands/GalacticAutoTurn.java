@@ -37,10 +37,10 @@ public class GalacticAutoTurn extends CommandBase {
     m_drive = subsystem1;
     m_lime = subsystem2;
     m_gyro = subsystem3;
-    kP = 0.65;
-    kI = 0.012;
-    kD = 0;
-    ep = 0;
+    kP = 1.6;
+    kI = 0.0;
+    kD = 1.5;
+    ep = 1;
     addRequirements(subsystem1);
   }
 
@@ -50,7 +50,7 @@ public class GalacticAutoTurn extends CommandBase {
 
     flag = false;
     m_gyro.resetGyro();
-    target = Math.abs(m_lime.getX());
+    target = m_lime.getX();
     proportional = 0;
     integral = 0;
     derivative = 0;
@@ -60,11 +60,11 @@ public class GalacticAutoTurn extends CommandBase {
   @Override
   public void execute() {
 
-    angle = Math.abs(m_gyro.getAngle());  
+    angle = m_gyro.getAngle();  
     tx = -m_lime.getX(); //negative because turning counterclockwise is positive, but limelight is opposite
     direction = tx/Math.abs(tx);
     difference = Math.abs(target - angle);
-    error = difference/target;
+    error = difference/27;
     proportional = error;
     integral += error;
     derivative = error - prev_error;
