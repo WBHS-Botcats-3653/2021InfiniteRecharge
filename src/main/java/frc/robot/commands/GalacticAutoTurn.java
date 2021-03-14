@@ -4,6 +4,9 @@
 
 package frc.robot.commands;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drive;
@@ -31,6 +34,7 @@ public class GalacticAutoTurn extends CommandBase {
   double turnspeed;
   double prev_error;
   double ep;
+  ArrayList<Double> x_values;
 
   /** Creates a new GalacticAuto. */
   public GalacticAutoTurn(drive subsystem1, limelight subsystem2, driveSensors subsystem3) {
@@ -40,7 +44,7 @@ public class GalacticAutoTurn extends CommandBase {
     kP = 1.6;
     kI = 0.0;
     kD = 1.5;
-    ep = 1;
+    ep = 0;
     addRequirements(subsystem1);
   }
 
@@ -48,9 +52,22 @@ public class GalacticAutoTurn extends CommandBase {
   @Override
   public void initialize() {
 
+
+    for(int i = 0; i < 5; i++) {
+
+      x_values.add(m_lime.getX());
+
+      if(i == 4) {
+
+        Collections.sort(x_values);
+
+      }
+
+    }
+
     flag = false;
     m_gyro.resetGyro();
-    target = m_lime.getX();
+    target = x_values.get(2);
     proportional = 0;
     integral = 0;
     derivative = 0;
@@ -72,7 +89,7 @@ public class GalacticAutoTurn extends CommandBase {
 
     m_drive.differentialDrive(0, turnspeed);
 
-    //If angle is within 1 degree of Power Cell, command ends
+    //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
     if(difference < 1 && Math.abs(derivative) <= ep) {
 
       flag = true;
