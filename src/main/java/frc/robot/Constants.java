@@ -83,7 +83,13 @@ public final class Constants {
     public static final double LIME_HEIGHT = 13; //In inches. Used for measuring distance to target below limelight
     public static final double HEIGHT_OF_TARGET = 0; //In inches. Used for measuring distance to target above limelight
     
-    //Intake & Storage Auto constants (GALACTIC SEARCH AUTO)
+    //Intake & Storage Auto constants (GALACTIC SEARCH AUTO INTAKE)
     public static final double GALACTIC_AUTO_INTAKE_SPEED = 0.75;
     public static final double GALACTIC_AUTO_STORAGE_SPEED = 0.75;
+    public static final double GALACTIC_AUTO_DELIVERY_SPEED = 0.75;
+    public static final double GALACTIC_AUTO_INTAKE_RUNTIME = 3; //(in seconds)
+
+    //Detect speed (GALACTIC SEARCH AUTO DETECT)
+	public static final double GALACTIC_AUTO_DETECT_ROTATION_SPEED = 0.5;
+	
 }

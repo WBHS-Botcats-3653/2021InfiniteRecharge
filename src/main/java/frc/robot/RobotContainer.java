@@ -60,14 +60,14 @@ public class RobotContainer {
     
     autoCommand.addOption("Galactic Search Test Turn", new GalacticAutoTurn(m_drive, m_lime, m_drivesensors));
     autoCommand.addOption("Galactic Search Test Drive", new GalacticAutoDrive(m_drive, m_lime, m_drivesensors));
-    autoCommand.addOption("Galactic Search Test Intake", new GalacticAutoIntake(m_in, m_store));
+    autoCommand.addOption("Galactic Search Test Intake", new GalacticAutoIntake(m_in, m_store, m_con, 1));
 
     autoCommand.addOption("Galactic Search Test", 
     new SequentialCommandGroup(
       new GalacticAutoTurn(m_drive, m_lime, m_drivesensors),
       new ParallelCommandGroup(
         new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
-        new GalacticAutoIntake(m_in, m_store))
+        new GalacticAutoIntake(m_in, m_store, m_con, 1))
       // new GalacticAutoTurn(m_drive, m_lime, m_drivesensors),
       // new ParallelCommandGroup(
       //   new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),

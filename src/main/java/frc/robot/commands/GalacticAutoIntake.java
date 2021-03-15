@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.conveyer;
 import frc.robot.subsystems.intake;
 import frc.robot.subsystems.storage;
 
@@ -13,14 +14,18 @@ public class GalacticAutoIntake extends CommandBase {
   
   intake m_in;
   storage m_store;
+  conveyer m_conveyer;
   double timer;
   boolean flag;
+  int ballNum;
 
 
-  public GalacticAutoIntake(intake subsystem1, storage subsystem2) {
+  public GalacticAutoIntake(intake subsystem1, storage subsystem2, conveyer subsystem3, int ball) {
 
     m_in = subsystem1;
     m_store = subsystem2;
+    m_conveyer = subsystem3;
+    ballNum = ball;
 
     addRequirements(subsystem1, subsystem2);
   }
@@ -40,10 +45,30 @@ public class GalacticAutoIntake extends CommandBase {
 
     timer += 0.02;
 
-    m_in.driveIntake(Constants.GALACTIC_AUTO_INTAKE_SPEED);
-    m_store.storageDrive(Constants.GALACTIC_AUTO_STORAGE_SPEED);
+    if (ballNum == 1) {
 
-    if(timer >= 3) {
+      m_in.driveIntake(Constants.GALACTIC_AUTO_INTAKE_SPEED);
+      m_store.storageDrive(Constants.GALACTIC_AUTO_STORAGE_SPEED);
+
+    } else if (ballNum == 2 || ballNum == 3) {
+
+        m_in.driveIntake(Constants.GALACTIC_AUTO_INTAKE_SPEED);
+        m_store.storageDrive(Constants.GALACTIC_AUTO_STORAGE_SPEED);
+
+        if(timer < 1) {
+          m_conveyer.deliveryDrive(Constants.GALACTIC_AUTO_DELIVERY_SPEED);
+        }
+
+    }
+    
+    if(timer >= 1) {
+
+      m_conveyer.deliveryDrive(0);
+
+    }
+
+
+    if(timer >= Constants.GALACTIC_AUTO_INTAKE_RUNTIME) {
       flag = true;
     }
 
@@ -55,6 +80,7 @@ public class GalacticAutoIntake extends CommandBase {
 
     m_in.driveIntake(0);
     m_store.storageDrive(0);
+    m_conveyer.deliveryDrive(0);
     System.out.println("Intake finished");
 
   }
