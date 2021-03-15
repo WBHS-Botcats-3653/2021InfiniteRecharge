@@ -19,6 +19,7 @@ public class GalacticAutoTurn extends CommandBase {
   drive m_drive;
   driveSensors m_gyro;
   double target;
+  double inputTarget;
   boolean flag;
   double kP;
   double kI;
@@ -33,6 +34,7 @@ public class GalacticAutoTurn extends CommandBase {
   double derivative;
   double turnspeed;
   double prev_error;
+  double prev_angle;
   double ep;
   ArrayList<Double> x_values;
 
@@ -48,26 +50,49 @@ public class GalacticAutoTurn extends CommandBase {
     addRequirements(subsystem1);
   }
 
+  //second constructor to make the robot turn to a specified angle
+  public GalacticAutoTurn(drive subsystem1, limelight subsystem2, driveSensors subsystem3, double inputTarg) {
+    m_drive = subsystem1;
+    m_lime = subsystem2;
+    m_gyro = subsystem3;
+    kP = 1.6;
+    kI = 0.0;
+    kD = 1.5;
+    ep = 0;
+    inputTarget = inputTarg;
+    addRequirements(subsystem1);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 
+    //Sets the target for the auto turn
 
-    for(int i = 0; i < 5; i++) {
+    if(inputTarget != 0.0) {
 
-      x_values.add(m_lime.getX());
+      target = inputTarget;
 
-      if(i == 4) {
+    } else {
 
-        Collections.sort(x_values);
+      for(int i = 0; i < 5; i++) {
+
+        x_values.add(m_lime.getX());
+
+        if(i == 4) {
+
+          Collections.sort(x_values);
+
+        }
 
       }
 
-    }
+      target = x_values.get(2);
+
+    } 
 
     flag = false;
     m_gyro.resetGyro();
-    target = x_values.get(2);
     proportional = 0;
     integral = 0;
     derivative = 0;
@@ -99,6 +124,10 @@ public class GalacticAutoTurn extends CommandBase {
     SmartDashboard.putNumber("GalacticAutoTurn difference", difference);
     SmartDashboard.putNumber("GalacticAutoTurn error", error);
     SmartDashboard.putNumber("GalacticAutoTurn Speed", turnspeed);
+
+    m_gyro.accumulateAngle(angle - prev_angle);
+
+    prev_angle = angle;
 
     prev_error = error;
 
