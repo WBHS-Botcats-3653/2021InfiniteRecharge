@@ -17,6 +17,7 @@ public class GalacticAutoDrive extends CommandBase {
   driveSensors m_encoders;
   limelight m_lime;
   double distance;
+  double inputDist;
   double mounting_angle;
   double lime_height;
   double angle_to_target;
@@ -36,13 +37,33 @@ public class GalacticAutoDrive extends CommandBase {
     addRequirements(subsystem1);
   }
 
+  public GalacticAutoDrive(drive subsystem1, limelight subsystem2, driveSensors subsystem3, double setDistance) {
+
+    m_drive = subsystem1;
+    m_lime = subsystem2;
+    m_encoders = subsystem3;
+    kP = 1.35;
+    inputDist = setDistance;
+
+    addRequirements(subsystem1);
+  }
+
   @Override
   public void initialize() {
 
+    if(inputDist != 0.0) {
+
+      distance = inputDist;
+
+    } else {
+
+      distance = m_lime.getDistance();
+      SmartDashboard.putNumber("Power Cell Dist.", distance);
+
+    }
+
     m_encoders.resetEncoders();
     flag = false;
-    distance = m_lime.getDistance();
-    SmartDashboard.putNumber("Power Cell Dist.", distance);
 
   }
 

@@ -4,9 +4,6 @@
 
 package frc.robot.commands;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drive;
@@ -36,7 +33,6 @@ public class GalacticAutoTurn extends CommandBase {
   double prev_error;
   double prev_angle;
   double ep;
-  ArrayList<Double> x_values;
 
   /** Creates a new GalacticAuto. */
   public GalacticAutoTurn(drive subsystem1, limelight subsystem2, driveSensors subsystem3) {

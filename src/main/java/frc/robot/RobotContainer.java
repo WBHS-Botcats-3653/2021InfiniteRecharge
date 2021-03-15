@@ -66,8 +66,33 @@ public class RobotContainer {
        )
     );
     
-    autoCommand.addOption("Galactic Search Test Detect", new GalacticAutoDetect(m_drive, m_lime));
-    autoCommand.addOption("Test Angle Reset", new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, m_drivesensors.getCumulativeAngle()));
+    autoCommand.addOption("Test Driving to Set Distance", new GalacticAutoDrive(m_drive, m_lime, m_drivesensors, 90));
+
+    autoCommand.addOption("Galactic Search :)", 
+    
+      new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
+          new GalacticAutoIntake(m_in, m_store, m_con, 1)      
+        ),
+        new GalacticAutoDetect(m_drive, m_lime),
+        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors),
+        new ParallelCommandGroup(
+          new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
+          new GalacticAutoIntake(m_in, m_store, m_con, 2)      
+        ),
+        new GalacticAutoDetect(m_drive, m_lime),
+        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors),
+        new ParallelCommandGroup(
+          new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
+          new GalacticAutoIntake(m_in, m_store, m_con, 3)      
+        ),
+        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, m_drivesensors.getCumulativeAngle()),
+        new GalacticAutoDrive(m_drive, m_lime, m_drivesensors, 90)
+      )    
+    
+    );
+
 
     SmartDashboard.putData("Choose Auto",autoCommand);
     
