@@ -66,7 +66,7 @@ public class driveSensors extends SubsystemBase {
     cumAngle += angle;
   }
 
-  public double getAccumulateAngle() {
+  public double getCumulativeAngle() {
     return cumAngle;
   }
 
@@ -76,6 +76,7 @@ public class driveSensors extends SubsystemBase {
     SmartDashboard.putNumber("rightEncoder",getRightDistance());
     SmartDashboard.putNumber("gyro angle", getAngle());
     SmartDashboard.putData("Gyro", gyro);
+    SmartDashboard.putNumber("Cumulative Angle", getCumulativeAngle());
     // This method will be called once per scheduler run
   }
 }

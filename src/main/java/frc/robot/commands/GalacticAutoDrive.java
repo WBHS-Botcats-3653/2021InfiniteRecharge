@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -23,6 +24,7 @@ public class GalacticAutoDrive extends CommandBase {
   double difference;
   boolean flag;
   double kP;
+  double timer;
 
   public GalacticAutoDrive(drive subsystem1, limelight subsystem2, driveSensors subsystem3) {
 
@@ -50,7 +52,7 @@ public class GalacticAutoDrive extends CommandBase {
     difference = distance - m_encoders.getRightDistance();
     error = difference/distance;
 
-    if(difference < 0) {
+    if(difference < 0 || timer >= Constants.GALACTIC_AUTO_INTAKE_RUNTIME) {
 
       flag = true;
 
@@ -58,6 +60,7 @@ public class GalacticAutoDrive extends CommandBase {
 
     //Given a minimum value of 0.25 so that drive does not stop until flagged
     m_drive.differentialDrive(error * kP + 0.25, 0);
+    timer += 0.02;
 
   }
 

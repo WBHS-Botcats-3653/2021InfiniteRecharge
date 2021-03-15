@@ -44,9 +44,9 @@ public class GalacticAutoTurn extends CommandBase {
     m_lime = subsystem2;
     m_gyro = subsystem3;
     kP = 1.6;
-    kI = 0.0;
-    kD = 1.5;
-    ep = 0;
+    kD = 1.6;
+    kI = 0.00255;
+    ep = 0.00005;
     addRequirements(subsystem1);
   }
 
@@ -56,9 +56,9 @@ public class GalacticAutoTurn extends CommandBase {
     m_lime = subsystem2;
     m_gyro = subsystem3;
     kP = 1.6;
-    kI = 0.0;
-    kD = 1.5;
-    ep = 0;
+    kD = 1.6;
+    kI = 0.00255;
+    ep = 0.00005;
     inputTarget = inputTarg;
     addRequirements(subsystem1);
   }
@@ -75,19 +75,7 @@ public class GalacticAutoTurn extends CommandBase {
 
     } else {
 
-      for(int i = 0; i < 5; i++) {
-
-        x_values.add(m_lime.getX());
-
-        if(i == 4) {
-
-          Collections.sort(x_values);
-
-        }
-
-      }
-
-      target = x_values.get(2);
+      target = m_lime.getX();
 
     } 
 
@@ -96,6 +84,7 @@ public class GalacticAutoTurn extends CommandBase {
     proportional = 0;
     integral = 0;
     derivative = 0;
+    kI = 0.0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -106,16 +95,23 @@ public class GalacticAutoTurn extends CommandBase {
     tx = -m_lime.getX(); //negative because turning counterclockwise is positive, but limelight is opposite
     direction = tx/Math.abs(tx);
     difference = Math.abs(target - angle);
-    error = difference/27;
+    error = difference/30;
     proportional = error;
     integral += error;
     derivative = error - prev_error;
+
+    if(!(derivative > -0.000005 && derivative < 0.000005)) {
+
     turnspeed = direction * (kP * proportional + kI * integral + kD * derivative);
 
     m_drive.differentialDrive(0, turnspeed);
 
+    } else {
+      m_drive.differentialDrive(0, direction * 0.75);
+    }
+
     //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
-    if(difference < 1 && Math.abs(derivative) <= ep) {
+    if(Math.abs(m_lime.getX()) < 1 && Math.abs(derivative) <= ep) {
 
       flag = true;
 
@@ -124,7 +120,8 @@ public class GalacticAutoTurn extends CommandBase {
     SmartDashboard.putNumber("GalacticAutoTurn difference", difference);
     SmartDashboard.putNumber("GalacticAutoTurn error", error);
     SmartDashboard.putNumber("GalacticAutoTurn Speed", turnspeed);
-
+    SmartDashboard.putNumber("Derivative", derivative);
+    SmartDashboard.putNumber("Integral", kI);
     m_gyro.accumulateAngle(angle - prev_angle);
 
     prev_angle = angle;
@@ -138,7 +135,7 @@ public class GalacticAutoTurn extends CommandBase {
   public void end(boolean interrupted) {
 
     m_drive.differentialDrive(0, 0);
-    System.out.println("Turn Finished");
+    System.out.println("Turn finished");
 
   }
 
