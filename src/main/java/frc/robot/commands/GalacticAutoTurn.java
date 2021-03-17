@@ -41,7 +41,7 @@ public class GalacticAutoTurn extends CommandBase {
     m_gyro = subsystem3;
     kP = 1.6;
     kD = 1.6;
-    kI = 0.01355;
+    kI = 0.00755;
     ep = 0.00005;
     addRequirements(subsystem1);
   }
@@ -54,7 +54,7 @@ public class GalacticAutoTurn extends CommandBase {
     kP = 1.6;
     kD = 1.6;
     kI = 0.00755;
-    ep = 0.5;
+    ep = 0.00005;
     inputTarget = inputTarg;
     addRequirements(subsystem1);
   }
@@ -113,7 +113,7 @@ public class GalacticAutoTurn extends CommandBase {
 
     } else {
 
-      // m_drive.differentialDrive(0, direction * 0.75);
+      kI += 0.0005;
 
     }
 
