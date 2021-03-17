@@ -25,14 +25,13 @@ public class GalacticAutoDrive extends CommandBase {
   double difference;
   boolean flag;
   double kP;
-  double timer;
 
   public GalacticAutoDrive(drive subsystem1, limelight subsystem2, driveSensors subsystem3) {
 
     m_drive = subsystem1;
     m_lime = subsystem2;
     m_encoders = subsystem3;
-    kP = 1.35;
+    kP = 1.45;
 
     addRequirements(subsystem1);
   }
@@ -73,7 +72,7 @@ public class GalacticAutoDrive extends CommandBase {
     difference = distance - m_encoders.getRightDistance();
     error = difference/distance;
 
-    if(difference < 0 || timer >= Constants.GALACTIC_AUTO_INTAKE_RUNTIME) {
+    if(difference < 0) {
 
       flag = true;
 
@@ -81,7 +80,6 @@ public class GalacticAutoDrive extends CommandBase {
 
     //Given a minimum value of 0.25 so that drive does not stop until flagged
     m_drive.differentialDrive(error * kP + 0.25, 0);
-    timer += 0.02;
 
   }
 

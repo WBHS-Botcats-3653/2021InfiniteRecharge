@@ -79,7 +79,7 @@ public final class Constants {
     public static final double servoTheta2 = 45;
     
     //Limelight constants for getDistance() 
-    public static final double MOUNTING_ANGLE = -4; //Angle must be negative if camera angle is below the horizontal and positive if not
+    public static final double MOUNTING_ANGLE = -0.712; //Angle must be negative if camera angle is below the horizontal and positive if not
     public static final double LIME_HEIGHT = 13; //In inches. Used for measuring distance to target below limelight
     public static final double HEIGHT_OF_TARGET = 0; //In inches. Used for measuring distance to target above limelight
     
@@ -90,6 +90,6 @@ public final class Constants {
     public static final double GALACTIC_AUTO_INTAKE_RUNTIME = 3; //(in seconds)
 
     //Detect speed (GALACTIC SEARCH AUTO DETECT)
-	public static final double GALACTIC_AUTO_DETECT_ROTATION_SPEED = 0.5;
+	public static final double GALACTIC_AUTO_DETECT_ROTATION_SPEED = -0.5;
 	
 }
