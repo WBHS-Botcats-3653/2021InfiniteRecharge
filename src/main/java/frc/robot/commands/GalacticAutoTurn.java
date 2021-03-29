@@ -119,25 +119,31 @@ public class GalacticAutoTurn extends CommandBase {
 
     //flag conditions
 
-    if(inputTarget != 0.0) {
+    if(difference < 1 && Math.abs(derivative) <= ep) {
 
-      //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
-      if(difference < 1 && Math.abs(derivative) <= ep) {
+      flag = true;
 
-        flag = true;
+    }
 
-      }
+    // if(inputTarget != 0.0) {
 
-    } else {
+    //   //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
+    //   if(difference < 1 && Math.abs(derivative) <= ep) {
 
-      //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
-      if(Math.abs(m_lime.getX()) < 1 && Math.abs(derivative) <= ep) {
+    //     flag = true;
 
-        flag = true;
+    //   }
 
-      }
+    // } else {
 
-    } 
+    //   //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
+    //   if(Math.abs(m_lime.getX()) < 1 && Math.abs(derivative) <= ep) {
+
+    //     flag = true;
+
+    //   }
+
+    // } 
 
     SmartDashboard.putNumber("GalacticAutoTurn difference", difference);
     SmartDashboard.putNumber("GalacticAutoTurn error", error);
