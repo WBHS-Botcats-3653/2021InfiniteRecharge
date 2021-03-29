@@ -39,10 +39,10 @@ public class GalacticAutoTurn extends CommandBase {
     m_drive = subsystem1;
     m_lime = subsystem2;
     m_gyro = subsystem3;
-    kP = 1.6;
-    kD = 1.6;
-    kI = 0.00755;
-    ep = 0.00005;
+    kP = 0.7;
+    kD = 1.25;
+    kI = 0.00455;
+    ep = 0.005;
     addRequirements(subsystem1);
   }
 
@@ -51,10 +51,10 @@ public class GalacticAutoTurn extends CommandBase {
     m_drive = subsystem1;
     m_lime = subsystem2;
     m_gyro = subsystem3;
-    kP = 1.6;
-    kD = 1.6;
-    kI = 0.00755;
-    ep = 0.00005;
+    kP = 0.7;
+    kD = 1.25;
+    kI = 0.00455;
+    ep = 0.005;
     inputTarget = inputTarg;
     addRequirements(subsystem1);
   }
@@ -67,7 +67,7 @@ public class GalacticAutoTurn extends CommandBase {
 
     if(inputTarget != 0.0) {
 
-      target = inputTarget;
+      target = inputTarget; 
 
     } else {
 
@@ -92,7 +92,7 @@ public class GalacticAutoTurn extends CommandBase {
     if(inputTarget != 0.0) {
 
       direction = (angle - target)/difference;
-      error = difference/Math.abs(inputTarget);
+      error = difference/Math.abs(target);
     } else {
 
       tx = -m_lime.getX(); //negative because turning counterclockwise is positive, but limelight is opposite
@@ -105,45 +105,31 @@ public class GalacticAutoTurn extends CommandBase {
     integral += error;
     derivative = error - prev_error;
 
-    if(!(derivative > -0.000005 && derivative < 0.000005)) {
-
     turnspeed = direction * (kP * proportional + kI * integral + kD * derivative);
 
     m_drive.differentialDrive(0, turnspeed);
 
-    } else {
-
-      kI += 0.0005;
-
-    }
-
     //flag conditions
 
-    if(difference < 1 && Math.abs(derivative) <= ep) {
+    if(inputTarget != 0.0) {
 
-      flag = true;
+      //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
+      if(difference < 1.2 && Math.abs(derivative) <= ep) {
 
-    }
+        flag = true;
 
-    // if(inputTarget != 0.0) {
+      }
 
-    //   //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
-    //   if(difference < 1 && Math.abs(derivative) <= ep) {
+    } else {
 
-    //     flag = true;
+      //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
+      if(Math.abs(m_lime.getX()) < 1 && Math.abs(derivative) <= ep) {
 
-    //   }
+        flag = true;
 
-    // } else {
+      }
 
-    //   //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
-    //   if(Math.abs(m_lime.getX()) < 1 && Math.abs(derivative) <= ep) {
-
-    //     flag = true;
-
-    //   }
-
-    // } 
+    } 
 
     SmartDashboard.putNumber("GalacticAutoTurn difference", difference);
     SmartDashboard.putNumber("GalacticAutoTurn error", error);

@@ -14,6 +14,7 @@ public class GalacticAutoDetect extends CommandBase {
   drive m_drive;
   limelight m_lime;
   boolean flag;
+  double timer;
 
   public GalacticAutoDetect(drive subsystem1, limelight subsystem2) {
     addRequirements(subsystem1);
@@ -27,16 +28,27 @@ public class GalacticAutoDetect extends CommandBase {
   public void initialize() {
 
     flag = false;
+    timer = 0;
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
+    timer += 0.02;
 
-    m_drive.differentialDrive(0, Constants.GALACTIC_AUTO_DETECT_ROTATION_SPEED);
+    if(!m_lime.validTarget()) {
 
-    if(m_lime.validTarget()) {
+      m_drive.differentialDrive(0, Constants.GALACTIC_AUTO_DETECT_ROTATION_SPEED);
+
+    } else {
+
+      m_drive.differentialDrive(0, 0);
+
+    }
+
+    if(m_lime.validTarget() && timer > 2) {
 
       flag = true;
 

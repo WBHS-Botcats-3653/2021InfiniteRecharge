@@ -89,7 +89,7 @@ public class RobotContainer {
           new GalacticAutoIntake(m_in, m_store, m_con, 3)      
         ),
         new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, m_drivesensors.getCumulativeAngle()),
-        new GalacticAutoDrive(m_drive, m_lime, m_drivesensors, 90)
+        new GalacticAutoDrive(m_drive, m_lime, m_drivesensors, 120)
       )    
     
     );

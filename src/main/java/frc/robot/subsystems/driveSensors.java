@@ -17,7 +17,7 @@ import frc.robot.Constants;
 public class driveSensors extends SubsystemBase {
   Encoder leftEncoder, rightEncoder;
   ADXRS450_Gyro gyro = null;
-  double cumAngle = 0.0;
+  double cumAngle;
 
   public driveSensors() {
     leftEncoder = new Encoder(Constants.leftDriveEncoder1, Constants.leftDriveEncoder2);
@@ -27,6 +27,8 @@ public class driveSensors extends SubsystemBase {
     leftEncoder.setDistancePerPulse(Constants.wheelCircumference/Constants.pulsesPerRotation);
     rightEncoder.setDistancePerPulse(Constants.wheelCircumference/Constants.pulsesPerRotation);
     leftEncoder.setReverseDirection(true);
+
+    cumAngle = 0.0;
   }
  
   public void resetEncoders(){
