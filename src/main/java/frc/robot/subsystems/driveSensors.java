@@ -28,7 +28,6 @@ public class driveSensors extends SubsystemBase {
     rightEncoder.setDistancePerPulse(Constants.wheelCircumference/Constants.pulsesPerRotation);
     leftEncoder.setReverseDirection(true);
 
-    cumAngle = 0.0;
   }
  
   public void resetEncoders(){
@@ -65,7 +64,7 @@ public class driveSensors extends SubsystemBase {
   }
 
   public void accumulateAngle(double angle) {
-    cumAngle += angle;
+    cumAngle -= angle;
   }
 
   public double getCumulativeAngle() {

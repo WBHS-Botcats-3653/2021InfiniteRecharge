@@ -16,7 +16,6 @@ public class GalacticAutoTurn extends CommandBase {
   drive m_drive;
   driveSensors m_gyro;
   double target;
-  double inputTarget;
   boolean flag;
   double kP;
   double kI;
@@ -33,9 +32,10 @@ public class GalacticAutoTurn extends CommandBase {
   double prev_error;
   double prev_angle;
   double ep;
+  boolean cumulativeRun;
 
   /** Creates a new GalacticAuto. */
-  public GalacticAutoTurn(drive subsystem1, limelight subsystem2, driveSensors subsystem3) {
+  public GalacticAutoTurn(drive subsystem1, limelight subsystem2, driveSensors subsystem3, boolean isCumulativeRun) {
     m_drive = subsystem1;
     m_lime = subsystem2;
     m_gyro = subsystem3;
@@ -43,19 +43,7 @@ public class GalacticAutoTurn extends CommandBase {
     kD = 1.25;
     kI = 0.00455;
     ep = 0.005;
-    addRequirements(subsystem1);
-  }
-
-  //second constructor to make the robot turn to a specified angle
-  public GalacticAutoTurn(drive subsystem1, limelight subsystem2, driveSensors subsystem3, double inputTarg) {
-    m_drive = subsystem1;
-    m_lime = subsystem2;
-    m_gyro = subsystem3;
-    kP = 0.7;
-    kD = 1.25;
-    kI = 0.00455;
-    ep = 0.005;
-    inputTarget = inputTarg;
+    cumulativeRun = isCumulativeRun;
     addRequirements(subsystem1);
   }
 
@@ -65,9 +53,9 @@ public class GalacticAutoTurn extends CommandBase {
 
     //Sets the target for the auto turn
 
-    if(inputTarget != 0.0) {
+    if(cumulativeRun) {
 
-      target = inputTarget; 
+      target = m_gyro.getCumulativeAngle(); 
 
     } else {
 
@@ -89,7 +77,7 @@ public class GalacticAutoTurn extends CommandBase {
     angle = m_gyro.getAngle();  
     difference = Math.abs(target - angle);
 
-    if(inputTarget != 0.0) {
+    if(cumulativeRun) {
 
       direction = (angle - target)/difference;
       error = difference/Math.abs(target);
@@ -111,7 +99,7 @@ public class GalacticAutoTurn extends CommandBase {
 
     //flag conditions
 
-    if(inputTarget != 0.0) {
+    if(cumulativeRun) {
 
       //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
       if(difference < 1.2 && Math.abs(derivative) <= ep) {

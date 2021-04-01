@@ -33,6 +33,7 @@ public class RobotContainer {
 
   
   public int climbMode = 0;
+  public static double cumulativeAngle;
 
   // Initiates options-list for the auto command
   private SendableChooser<Command> autoCommand = new SendableChooser<>();
@@ -58,17 +59,17 @@ public class RobotContainer {
 
     // Creates the different auto command options 
     
-    autoCommand.addOption("Galactic Search Test Turn", new GalacticAutoTurn(m_drive, m_lime, m_drivesensors));
+    autoCommand.addOption("Galactic Search Test Turn", new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, false));
 
     autoCommand.addOption("Galactic Search Test Turn, Drive, & Reset", 
     
       new SequentialCommandGroup(
-        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors),
+        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, false),
         new ParallelCommandGroup(
           new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
           new GalacticAutoIntake(m_in, m_store, m_con, 1)      
         ),
-        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, m_drivesensors.getCumulativeAngle())
+        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, true)
       )
     );
 
@@ -87,18 +88,18 @@ public class RobotContainer {
           new GalacticAutoIntake(m_in, m_store, m_con, 1)      
         ),
         new GalacticAutoDetect(m_drive, m_lime),
-        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors),
+        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, false),
         new ParallelCommandGroup(
           new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
           new GalacticAutoIntake(m_in, m_store, m_con, 2)      
         ),
         new GalacticAutoDetect(m_drive, m_lime),
-        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors),
+        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, false),
         new ParallelCommandGroup(
           new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
           new GalacticAutoIntake(m_in, m_store, m_con, 3)      
         ),
-        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, m_drivesensors.getCumulativeAngle()),
+        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, true),
         new GalacticAutoDrive(m_drive, m_lime, m_drivesensors, 120)
       )    
     
