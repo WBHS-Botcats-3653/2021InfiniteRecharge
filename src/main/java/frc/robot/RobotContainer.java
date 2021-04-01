@@ -59,7 +59,19 @@ public class RobotContainer {
     // Creates the different auto command options 
     
     autoCommand.addOption("Galactic Search Test Turn", new GalacticAutoTurn(m_drive, m_lime, m_drivesensors));
-    autoCommand.addOption("Galactic Search Test Reset", new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, 90));
+
+    autoCommand.addOption("Galactic Search Test Turn, Drive, & Reset", 
+    
+      new SequentialCommandGroup(
+        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors),
+        new ParallelCommandGroup(
+          new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
+          new GalacticAutoIntake(m_in, m_store, m_con, 1)      
+        ),
+        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, m_drivesensors.getCumulativeAngle())
+      )
+    );
+
     autoCommand.addOption("Galactic Search Test Drive", 
       new ParallelCommandGroup(
         new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
@@ -67,8 +79,6 @@ public class RobotContainer {
        )
     );
     
-    autoCommand.addOption("Test Driving to Set Distance", new GalacticAutoDrive(m_drive, m_lime, m_drivesensors, 90));
-
     autoCommand.addOption("Galactic Search Auto :)", 
     
       new SequentialCommandGroup(
