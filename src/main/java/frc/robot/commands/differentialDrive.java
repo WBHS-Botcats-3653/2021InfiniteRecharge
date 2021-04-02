@@ -7,24 +7,21 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.drive;
-
-import java.util.function.DoubleSupplier;
 
 public class differentialDrive extends CommandBase {
   /**
    * Creates a new differentialDrive.
    */
   private final drive m_drive;
-  private final DoubleSupplier m_speed;
-  private final DoubleSupplier m_angle;
+  private final XboxController m_controller;
 
-  public differentialDrive(drive subsystem, DoubleSupplier forward, DoubleSupplier turn) {
+  public differentialDrive(drive subsystem, XboxController controller) {
     m_drive = subsystem;
-    m_speed = forward;
-    m_angle = turn;
+    m_controller = controller;
     addRequirements(m_drive);
   }
 
@@ -35,7 +32,7 @@ public class differentialDrive extends CommandBase {
   @Override
   public void execute() {
     // activates drive with controller input
-    m_drive.differentialDrive(-1*m_speed.getAsDouble(), -1*m_angle.getAsDouble());
+    m_drive.differentialDrive(m_controller.getRawAxis(Constants.XBOX_CONTROLLER_LEFT_Y_AXIS), m_controller.getRawAxis(Constants.XBOX_CONTROLLER_RIGHT_Y_AXIS));
   }
 
   // Called once the command ends or is interrupted.

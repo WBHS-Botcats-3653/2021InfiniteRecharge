@@ -90,6 +90,10 @@ public final class Constants {
     public static final double GALACTIC_AUTO_INTAKE_RUNTIME = 3; //(in seconds)
 
     //Detect speed (GALACTIC SEARCH AUTO DETECT)
-	public static final double GALACTIC_AUTO_DETECT_ROTATION_SPEED = -0.5;
+    public static final double GALACTIC_AUTO_DETECT_ROTATION_SPEED = -0.5;
+    
+    //Xbox Controller Inputs
+	public static final int XBOX_CONTROLLER_LEFT_Y_AXIS = 0;
+	public static final int XBOX_CONTROLLER_RIGHT_Y_AXIS = 0;
 	
 }
