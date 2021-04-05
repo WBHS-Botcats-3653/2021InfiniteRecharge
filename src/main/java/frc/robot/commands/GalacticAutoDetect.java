@@ -7,20 +7,25 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.drive;
+import frc.robot.subsystems.driveSensors;
 import frc.robot.subsystems.limelight;
 
 public class GalacticAutoDetect extends CommandBase {
   
   drive m_drive;
   limelight m_lime;
+  driveSensors m_gyro;
   boolean flag;
   double timer;
+  double angle;
+  double prev_angle;
 
-  public GalacticAutoDetect(drive subsystem1, limelight subsystem2) {
+  public GalacticAutoDetect(drive subsystem1, limelight subsystem2, driveSensors subsystem3) {
     addRequirements(subsystem1);
 
     m_drive = subsystem1;
     m_lime = subsystem2;
+    m_gyro = subsystem3;
   }
 
   // Called when the command is initially scheduled.
@@ -29,6 +34,7 @@ public class GalacticAutoDetect extends CommandBase {
 
     flag = false;
     timer = 0;
+    m_gyro.resetGyro();
 
   }
 
@@ -37,6 +43,9 @@ public class GalacticAutoDetect extends CommandBase {
   public void execute() {
     
     timer += 0.02;
+    
+    angle = m_gyro.getAngle();
+    m_gyro.accumulateAngle(angle - prev_angle); //Angle accumulation for reset
 
     if(!m_lime.validTarget()) {
 
@@ -53,6 +62,8 @@ public class GalacticAutoDetect extends CommandBase {
       flag = true;
 
     }
+
+    prev_angle = angle;
 
   }
 

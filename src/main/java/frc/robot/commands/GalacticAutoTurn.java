@@ -75,6 +75,8 @@ public class GalacticAutoTurn extends CommandBase {
   public void execute() {
 
     angle = m_gyro.getAngle();  
+    m_gyro.accumulateAngle(angle - prev_angle); //Angle accumulation for reset
+
     difference = Math.abs(target - angle);
 
     if(cumulativeRun) {
@@ -127,10 +129,9 @@ public class GalacticAutoTurn extends CommandBase {
     SmartDashboard.putNumber("Proportional", proportional);
     SmartDashboard.putNumber("Derivative", derivative);
     SmartDashboard.putNumber("Integral", integral);
-    m_gyro.accumulateAngle(angle - prev_angle);
+
 
     prev_angle = angle;
-
     prev_error = error;
 
   }

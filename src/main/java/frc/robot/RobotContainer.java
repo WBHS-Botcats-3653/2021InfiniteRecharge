@@ -87,13 +87,13 @@ public class RobotContainer {
           new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
           new GalacticAutoIntake(m_in, m_store, m_con, 1)      
         ),
-        new GalacticAutoDetect(m_drive, m_lime),
+        new GalacticAutoDetect(m_drive, m_lime, m_drivesensors),
         new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, false),
         new ParallelCommandGroup(
           new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
           new GalacticAutoIntake(m_in, m_store, m_con, 2)      
         ),
-        new GalacticAutoDetect(m_drive, m_lime),
+        new GalacticAutoDetect(m_drive, m_lime, m_drivesensors),
         new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, false),
         new ParallelCommandGroup(
           new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
