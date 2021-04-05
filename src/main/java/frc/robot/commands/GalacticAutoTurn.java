@@ -52,10 +52,19 @@ public class GalacticAutoTurn extends CommandBase {
   public void initialize() {
 
     //Sets the target for the auto turn
-
     if(cumulativeRun) {
 
       target = m_gyro.getCumulativeAngle(); 
+
+      if(target>180) { //Attempt to have robot find the shortest angle to turn to reset
+
+        target -= 360; 
+
+      } else if(target < -180) {
+
+        target += 360;
+
+      }
 
     } else {
 

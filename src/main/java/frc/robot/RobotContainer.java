@@ -100,7 +100,7 @@ public class RobotContainer {
           new GalacticAutoIntake(m_in, m_store, m_con, 3)      
         ),
         new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, true),
-        new GalacticAutoDrive(m_drive, m_lime, m_drivesensors, 120)
+        new GalacticAutoDrive(m_drive, m_lime, m_drivesensors, 300)
       )    
     
     );
