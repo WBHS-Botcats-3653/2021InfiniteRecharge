@@ -8,40 +8,36 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.conveyer;
 
-import frc.robot.subsystems.drive;
-
-import java.util.function.DoubleSupplier;
-
-public class differentialDrive extends CommandBase {
+public class deliveryEngage extends CommandBase {
   /**
-   * Creates a new differentialDrive.
+   * Creates a new deliveryEngage.
    */
-  private final drive m_drive;
-  private final DoubleSupplier m_speed;
-  private final DoubleSupplier m_angle;
-
-  public differentialDrive(drive subsystem, DoubleSupplier forward, DoubleSupplier turn) {
-    m_drive = subsystem;
-    m_speed = forward;
-    m_angle = turn;
-    addRequirements(m_drive);
+  private conveyer m_con = null;
+  private int direction;
+  public deliveryEngage(conveyer subsystem, int dir) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    m_con = subsystem;
+    direction = dir;
+    addRequirements(m_con);
   }
 
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // activates drive with controller input
-    m_drive.differentialDrive(-1*m_speed.getAsDouble(), -1*m_angle.getAsDouble());
+    m_con.deliveryDrive(direction*0.75);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drive.differentialDrive(0,0);
+    m_con.deliveryDrive(0);
   }
 
   // Returns true when the command should end.

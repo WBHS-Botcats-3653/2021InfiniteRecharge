@@ -7,46 +7,46 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.drive;
-
-import java.util.function.DoubleSupplier;
-
-public class differentialDrive extends CommandBase {
+public class rumble extends CommandBase {
   /**
-   * Creates a new differentialDrive.
+   * Creates a new rumble.
    */
-  private final drive m_drive;
-  private final DoubleSupplier m_speed;
-  private final DoubleSupplier m_angle;
 
-  public differentialDrive(drive subsystem, DoubleSupplier forward, DoubleSupplier turn) {
-    m_drive = subsystem;
-    m_speed = forward;
-    m_angle = turn;
-    addRequirements(m_drive);
+  XboxController m_controller = null;
+  boolean rumble;
+  boolean flag;
+
+  public rumble(XboxController controller, boolean val) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    flag = false;
+    m_controller = controller;
+    rumble = val;
   }
 
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_controller.setRumble(GenericHID.RumbleType.kLeftRumble,(rumble) ? 1:0);
+    flag = true;
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // activates drive with controller input
-    m_drive.differentialDrive(-1*m_speed.getAsDouble(), -1*m_angle.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drive.differentialDrive(0,0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return flag;
   }
 }

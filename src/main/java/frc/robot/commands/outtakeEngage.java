@@ -8,40 +8,41 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.outtake;
+import frc.robot.subsystems.limelight;
 
-import frc.robot.subsystems.drive;
-
-import java.util.function.DoubleSupplier;
-
-public class differentialDrive extends CommandBase {
+public class outtakeEngage extends CommandBase {
   /**
-   * Creates a new differentialDrive.
+   * Creates a new outtakeEngage.
    */
-  private final drive m_drive;
-  private final DoubleSupplier m_speed;
-  private final DoubleSupplier m_angle;
+  private outtake m_out = null;
+  private limelight m_lime = null;
+  private int direction;
 
-  public differentialDrive(drive subsystem, DoubleSupplier forward, DoubleSupplier turn) {
-    m_drive = subsystem;
-    m_speed = forward;
-    m_angle = turn;
-    addRequirements(m_drive);
+  public outtakeEngage(outtake subsystem, limelight subsystem2, int dir) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    m_out = subsystem;
+    m_lime = subsystem2;
+    
+    direction = dir;
+    addRequirements(m_out);
   }
 
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // activates drive with controller input
-    m_drive.differentialDrive(-1*m_speed.getAsDouble(), -1*m_angle.getAsDouble());
+    m_out.driveOuttake(direction*m_lime.getPerfectSpeed());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drive.differentialDrive(0,0);
+    m_out.driveOuttake(0);
   }
 
   // Returns true when the command should end.

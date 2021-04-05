@@ -8,24 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.limelight;
 
-import frc.robot.subsystems.drive;
-
-import java.util.function.DoubleSupplier;
-
-public class differentialDrive extends CommandBase {
-  /**
-   * Creates a new differentialDrive.
-   */
-  private final drive m_drive;
-  private final DoubleSupplier m_speed;
-  private final DoubleSupplier m_angle;
-
-  public differentialDrive(drive subsystem, DoubleSupplier forward, DoubleSupplier turn) {
-    m_drive = subsystem;
-    m_speed = forward;
-    m_angle = turn;
-    addRequirements(m_drive);
+public class changePipeline extends CommandBase {
+  
+  private boolean flag = false;
+  private limelight m_lime;
+  
+  public changePipeline(limelight subsystem) {
+    m_lime = subsystem;
+    addRequirements(m_lime);
   }
 
   @Override
@@ -34,19 +26,17 @@ public class differentialDrive extends CommandBase {
 
   @Override
   public void execute() {
-    // activates drive with controller input
-    m_drive.differentialDrive(-1*m_speed.getAsDouble(), -1*m_angle.getAsDouble());
+    m_lime.changePipe();
+    // flag variable ensures command runs only once per press
+    flag = true;
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drive.differentialDrive(0,0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return flag;
   }
 }

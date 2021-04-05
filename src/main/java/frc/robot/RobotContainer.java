@@ -42,13 +42,17 @@ public class RobotContainer {
   private UsbCamera cam0 = null;
 
   // Creates instances for every subsystem and the controller
+  private final climb m_climb = new climb();
   private final drive m_drive = new drive();
   private final outtake m_out = new outtake();
   private final conveyer m_con = new conveyer();
   private final intake m_in = new intake();
   private final limelight m_lime = new limelight();
   private final storage m_store = new storage();
+  private final climbMode m_climbMode = new climbMode();
+  private final controlPanel m_control = new controlPanel();
   private final driveSensors m_drivesensors = new driveSensors();
+  private final digitalinputs m_digital = new digitalinputs();
   private final XboxController m_controller = new XboxController(0);
 
   public RobotContainer() {
@@ -114,7 +118,9 @@ public class RobotContainer {
     // to pass analog inputs, arithmetic calculates
     // changed speed from climbMode value. 
     m_drive.setDefaultCommand(
-        new differentialDrive(m_drive, m_controller)
+        new differentialDrive(m_drive, 
+                              () -> m_controller.getY(GenericHID.Hand.kLeft)*((1-m_climbMode.climbMode)*0.25+0.75), 
+                              () -> m_controller.getX(GenericHID.Hand.kRight)*((1-m_climbMode.climbMode)*0.25+0.75))
         );
 
     configureButtonBindings();
@@ -166,9 +172,84 @@ public class RobotContainer {
     Trigger backButton = new Trigger(m_controller::getBackButton);
     Trigger startButton = new Trigger(m_controller::getStartButton);
     
-    
+    // Here the angle values corresponding
+    // to each d-pad input are established,
+    // again using lambdas.
+    Trigger bottomDPad = new Trigger(
+      () -> {
+              return (m_controller.getPOV(0)>135 && m_controller.getPOV(0)<225);
+            }
+    );
+    Trigger leftDPad = new Trigger(
+      () -> {
+              return (m_controller.getPOV(0)>225 && m_controller.getPOV(0)<315);
+            }
+    );
+    Trigger rightDPad = new Trigger(
+      () -> {
+              return (m_controller.getPOV(0)>45 && m_controller.getPOV(0)<135);
+            }
+    );
+    Trigger topDPad = new Trigger(
+      () -> {
+              return (m_controller.getPOV(0)>=315 || (m_controller.getPOV(0)<=45 && m_controller.getPOV(0)>0));
+            }
+    );
 
+    // Creates trigger for retrieving
+    // drive mode
+    Trigger climbMode = new Trigger(
+      () -> {
+              if(m_climbMode.climbMode == 1){
+                return true;
+              } else {
+                return false;
+              }
+            }
+    );
+
+    // Switches between regular driving
+    // and climb mode. When a switch is
+    // made, controller quickly rumbles.
+    backButton.whenActive(
+      new SequentialCommandGroup(
+        new toggleClimbMode(m_climbMode),
+        new rumble(m_controller,true),
+        new WaitCommand(0.5),
+        new rumble(m_controller,false)
+        ));
     
+    // Binds each trigger to a command.
+    // Separated into climbMode and non-
+    // climbMode bindings. Y button being
+    // held is generally used to reverse 
+    // the direction of a button's action
+    (climbMode.negate()).and(bottomDPad).toggleWhenActive(new controlLift(m_control,Constants.servoTheta1));
+    (climbMode.negate()).and(leftDPad).whileActiveOnce(new controlSpin(m_control,-1));
+    (climbMode.negate()).and(rightDPad).whileActiveOnce(new controlSpin(m_control,1));
+    (climbMode.negate()).and(buttonX).whileActiveOnce(new intakeEngage(m_in,1));
+    (climbMode.negate()).and(buttonB).whileActiveOnce(new deliveryEngage(m_con,1));
+    (climbMode.negate()).and(buttonA).whileActiveOnce(new storageEngage(m_store,1));
+    (climbMode.negate()).and(rightTrig).whileActiveOnce(new outtakeEngage(m_out,m_lime,1));
+    (climbMode.negate()).and(buttonY.and(buttonX)).whileActiveOnce(new intakeEngage(m_in,-1));
+    (climbMode.negate()).and(buttonY.and(buttonB)).whileActiveOnce(new deliveryEngage(m_con,-1));
+    (climbMode.negate()).and(buttonY.and(buttonA)).whileActiveOnce(new storageEngage(m_store,-1));
+    (climbMode.negate()).and(buttonY.and(rightTrig)).whileActiveOnce(new outtakeEngage(m_out,m_lime,-1));
+    //(climbMode.negate()).and(rightBump).whenActive(new changePipeline(m_lime));
+    (climbMode.negate()).and(leftBump).whenActive(new changeMode(m_lime));
+    
+    // Climb mode bindings
+    climbMode.and(buttonX.or(buttonB)).whileActiveOnce(new winchEngage(m_climb,1,
+          () -> m_controller.getXButton(),
+          () -> m_controller.getBButton()
+          ));
+    climbMode.and(rightTrig.or(leftTrig)).whileActiveOnce(new climbEngage(m_climb,-1,
+          () -> { return (m_controller.getTriggerAxis(GenericHID.Hand.kLeft)>trigEpsilon); },
+          () -> { return (m_controller.getTriggerAxis(GenericHID.Hand.kRight)>trigEpsilon); }
+          ));
+    climbMode.and(rightBump.or(leftBump)).whileActiveOnce(new climbEngage(m_climb,1,() -> m_controller.getBumper(GenericHID.Hand.kLeft),() -> m_controller.getBumper(GenericHID.Hand.kRight)));
+    climbMode.and(buttonY.and(buttonX.or(buttonB))).whileActiveOnce(new winchEngage(m_climb,-1,() -> m_controller.getXButton(),() -> m_controller.getBButton()));
+
   }
 
 
