@@ -28,7 +28,7 @@ public class armEngage extends CommandBase {
   @Override
   public void execute() {
 
-    m_arm.driveArm(0.5*dir);
+    m_arm.driveArm(0.25*dir);
 
   }
 

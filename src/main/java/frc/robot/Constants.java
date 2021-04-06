@@ -28,10 +28,10 @@ public final class Constants {
 
     //TBD CAN IDs (STORAGE, DELIVERY, OUTTAKE)
     public static final int outtake1 = 0;
-    public static final int outtake2 = 0;
-    public static final int storage1 = 0;  
-    public static final int storage2 = 0;    
-    public static final int delivery = 0;
+    public static final int outtake2 = 3;
+    public static final int storage1 = 1;  
+    public static final int storage2 = 4;    
+    public static final int delivery = 2;
 
     //DIO
     public static final int leftDriveEncoder1 = 6;
@@ -63,7 +63,7 @@ public final class Constants {
     public static final double GALACTIC_AUTO_DETECT_ROTATION_SPEED = -0.5;
     
     //Xbox controller ports
-	public static final int XBOX_CONTROLLER_LEFT_Y_AXIS = 0;
-	public static final int XBOX_CONTROLLER_RIGHT_X_AXIS = 0;
+	public static final int XBOX_CONTROLLER_LEFT_Y_AXIS = 1;
+	public static final int XBOX_CONTROLLER_RIGHT_X_AXIS = 4;
 	
 }

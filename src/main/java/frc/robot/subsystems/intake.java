@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 
 public class intake extends SubsystemBase {
   private double maxIntake = 1;
-  private VictorSP m_intake = null;
+  private VictorSP m_intake;
   private double direction;
 
   public intake() {

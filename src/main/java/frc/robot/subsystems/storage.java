@@ -28,7 +28,7 @@ public class storage extends SubsystemBase {
   public void storageDrive(double speed){
     direction = speed;
     m_storage1.set(-speed*maxStorage);
-    m_storage2.set(-speed*maxStorage);
+    m_storage2.set(speed*maxStorage);
   }
 
   public double getDirection(){

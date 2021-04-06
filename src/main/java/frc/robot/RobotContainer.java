@@ -149,7 +149,7 @@ public class RobotContainer {
     buttonA.whileActiveOnce(new intakeEngage(m_in, 1));
     buttonX.whileActiveOnce(new intakeEngage(m_in, -1));
     buttonB.whileActiveOnce(new storageEngage(m_store, 1));
-    buttonY.whileActiveOnce(new deliveryEngage(m_delivery, 1));
+    buttonY.whileActiveOnce(new deliveryEngage(m_delivery, -1));
     leftBump.whileActiveOnce(new armEngage(m_arm, 1));
     leftTrig.whileActiveOnce(new armEngage(m_arm, -1));
     rightTrig.whileActiveOnce(new outtakeEngage(m_out, 1));

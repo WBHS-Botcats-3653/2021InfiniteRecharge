@@ -25,7 +25,7 @@ public class outtake extends SubsystemBase {
 
   public void driveOuttake(double speed){
     m_outtake1.set(-speed*maxOut);
-    m_outtake2.set(-speed*maxOut);
+    m_outtake2.set(speed*maxOut);
   }
 
   @Override
