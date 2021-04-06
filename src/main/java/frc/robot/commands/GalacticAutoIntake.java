@@ -6,25 +6,25 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.conveyer;
+import frc.robot.subsystems.delivery;
 import frc.robot.subsystems.intake;
 import frc.robot.subsystems.storage;
 
 public class GalacticAutoIntake extends CommandBase {
   
-  intake m_in;
-  storage m_store;
-  conveyer m_conveyer;
-  double timer;
-  boolean flag;
-  int ballNum;
+  private intake m_in;
+  private storage m_store;
+  private delivery m_delivery;
+  private double timer;
+  private boolean flag;
+  private int ballNum;
 
 
-  public GalacticAutoIntake(intake subsystem1, storage subsystem2, conveyer subsystem3, int ball) {
+  public GalacticAutoIntake(intake subsystem1, storage subsystem2, delivery subsystem3, int ball) {
 
     m_in = subsystem1;
     m_store = subsystem2;
-    m_conveyer = subsystem3;
+    m_delivery = subsystem3;
     ballNum = ball;
 
     addRequirements(subsystem1, subsystem2);
@@ -56,14 +56,14 @@ public class GalacticAutoIntake extends CommandBase {
         m_store.storageDrive(Constants.GALACTIC_AUTO_STORAGE_SPEED);
 
         if(timer < 1) {
-          m_conveyer.deliveryDrive(Constants.GALACTIC_AUTO_DELIVERY_SPEED);
+          m_delivery.driveDelivery(Constants.GALACTIC_AUTO_DELIVERY_SPEED);
         }
 
     }
     
     if(timer >= 1) {
 
-      m_conveyer.deliveryDrive(0);
+      m_delivery.driveDelivery(0);
 
     }
 
@@ -80,7 +80,7 @@ public class GalacticAutoIntake extends CommandBase {
 
     m_in.driveIntake(0);
     m_store.storageDrive(0);
-    m_conveyer.deliveryDrive(0);
+    m_delivery.driveDelivery(0);;
     System.out.println("Intake finished");
 
   }

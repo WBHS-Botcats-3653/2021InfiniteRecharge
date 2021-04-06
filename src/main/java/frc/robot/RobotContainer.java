@@ -9,8 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +17,6 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -38,45 +35,27 @@ public class RobotContainer {
   // Initiates options-list for the auto command
   private SendableChooser<Command> autoCommand = new SendableChooser<>();
 
-  // Initiates camera object
-  private UsbCamera cam0 = null;
-
   // Creates instances for every subsystem and the controller
-  private final climb m_climb = new climb();
   private final drive m_drive = new drive();
+  private final delivery m_delivery = new delivery();
   private final outtake m_out = new outtake();
-  private final conveyer m_con = new conveyer();
   private final intake m_in = new intake();
   private final limelight m_lime = new limelight();
   private final storage m_store = new storage();
-  private final climbMode m_climbMode = new climbMode();
-  private final controlPanel m_control = new controlPanel();
   private final driveSensors m_drivesensors = new driveSensors();
-  private final digitalinputs m_digital = new digitalinputs();
   private final XboxController m_controller = new XboxController(0);
+  private final Arm m_arm = new Arm();
 
   public RobotContainer() {
 
     // Creates the different auto command options 
     
     autoCommand.addOption("Galactic Search Test Turn", new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, false));
-
-    autoCommand.addOption("Galactic Search Test Turn, Drive, & Reset", 
     
-      new SequentialCommandGroup(
-        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, false),
-        new ParallelCommandGroup(
-          new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
-          new GalacticAutoIntake(m_in, m_store, m_con, 1)      
-        ),
-        new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, true)
-      )
-    );
-
     autoCommand.addOption("Galactic Search Test Drive", 
       new ParallelCommandGroup(
         new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
-        new GalacticAutoIntake(m_in, m_store, m_con, 1)      
+        new GalacticAutoIntake(m_in, m_store, m_delivery, 1)      
        )
     );
     
@@ -85,19 +64,19 @@ public class RobotContainer {
       new SequentialCommandGroup(
         new ParallelCommandGroup(
           new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
-          new GalacticAutoIntake(m_in, m_store, m_con, 1)      
+          new GalacticAutoIntake(m_in, m_store, m_delivery, 1)      
         ),
         new GalacticAutoDetect(m_drive, m_lime, m_drivesensors),
         new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, false),
         new ParallelCommandGroup(
           new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
-          new GalacticAutoIntake(m_in, m_store, m_con, 2)      
+          new GalacticAutoIntake(m_in, m_store, m_delivery, 2)      
         ),
         new GalacticAutoDetect(m_drive, m_lime, m_drivesensors),
         new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, false),
         new ParallelCommandGroup(
           new GalacticAutoDrive(m_drive, m_lime, m_drivesensors),
-          new GalacticAutoIntake(m_in, m_store, m_con, 3)      
+          new GalacticAutoIntake(m_in, m_store, m_delivery, 3)      
         ),
         new GalacticAutoTurn(m_drive, m_lime, m_drivesensors, true),
         new GalacticAutoDrive(m_drive, m_lime, m_drivesensors, 300)
@@ -117,11 +96,7 @@ public class RobotContainer {
     // Sets default drive command. Lambdas are used 
     // to pass analog inputs, arithmetic calculates
     // changed speed from climbMode value. 
-    m_drive.setDefaultCommand(
-        new differentialDrive(m_drive, 
-                              () -> m_controller.getY(GenericHID.Hand.kLeft)*((1-m_climbMode.climbMode)*0.25+0.75), 
-                              () -> m_controller.getX(GenericHID.Hand.kRight)*((1-m_climbMode.climbMode)*0.25+0.75))
-        );
+    m_drive.setDefaultCommand(new differentialDrive(m_drive, m_controller));
 
     configureButtonBindings();
   }
@@ -169,86 +144,15 @@ public class RobotContainer {
             }
     );
 
-    Trigger backButton = new Trigger(m_controller::getBackButton);
-    Trigger startButton = new Trigger(m_controller::getStartButton);
-    
-    // Here the angle values corresponding
-    // to each d-pad input are established,
-    // again using lambdas.
-    Trigger bottomDPad = new Trigger(
-      () -> {
-              return (m_controller.getPOV(0)>135 && m_controller.getPOV(0)<225);
-            }
-    );
-    Trigger leftDPad = new Trigger(
-      () -> {
-              return (m_controller.getPOV(0)>225 && m_controller.getPOV(0)<315);
-            }
-    );
-    Trigger rightDPad = new Trigger(
-      () -> {
-              return (m_controller.getPOV(0)>45 && m_controller.getPOV(0)<135);
-            }
-    );
-    Trigger topDPad = new Trigger(
-      () -> {
-              return (m_controller.getPOV(0)>=315 || (m_controller.getPOV(0)<=45 && m_controller.getPOV(0)>0));
-            }
-    );
+    //Button mapping to commands
 
-    // Creates trigger for retrieving
-    // drive mode
-    Trigger climbMode = new Trigger(
-      () -> {
-              if(m_climbMode.climbMode == 1){
-                return true;
-              } else {
-                return false;
-              }
-            }
-    );
-
-    // Switches between regular driving
-    // and climb mode. When a switch is
-    // made, controller quickly rumbles.
-    backButton.whenActive(
-      new SequentialCommandGroup(
-        new toggleClimbMode(m_climbMode),
-        new rumble(m_controller,true),
-        new WaitCommand(0.5),
-        new rumble(m_controller,false)
-        ));
-    
-    // Binds each trigger to a command.
-    // Separated into climbMode and non-
-    // climbMode bindings. Y button being
-    // held is generally used to reverse 
-    // the direction of a button's action
-    (climbMode.negate()).and(bottomDPad).toggleWhenActive(new controlLift(m_control,Constants.servoTheta1));
-    (climbMode.negate()).and(leftDPad).whileActiveOnce(new controlSpin(m_control,-1));
-    (climbMode.negate()).and(rightDPad).whileActiveOnce(new controlSpin(m_control,1));
-    (climbMode.negate()).and(buttonX).whileActiveOnce(new intakeEngage(m_in,1));
-    (climbMode.negate()).and(buttonB).whileActiveOnce(new deliveryEngage(m_con,1));
-    (climbMode.negate()).and(buttonA).whileActiveOnce(new storageEngage(m_store,1));
-    (climbMode.negate()).and(rightTrig).whileActiveOnce(new outtakeEngage(m_out,m_lime,1));
-    (climbMode.negate()).and(buttonY.and(buttonX)).whileActiveOnce(new intakeEngage(m_in,-1));
-    (climbMode.negate()).and(buttonY.and(buttonB)).whileActiveOnce(new deliveryEngage(m_con,-1));
-    (climbMode.negate()).and(buttonY.and(buttonA)).whileActiveOnce(new storageEngage(m_store,-1));
-    (climbMode.negate()).and(buttonY.and(rightTrig)).whileActiveOnce(new outtakeEngage(m_out,m_lime,-1));
-    //(climbMode.negate()).and(rightBump).whenActive(new changePipeline(m_lime));
-    (climbMode.negate()).and(leftBump).whenActive(new changeMode(m_lime));
-    
-    // Climb mode bindings
-    climbMode.and(buttonX.or(buttonB)).whileActiveOnce(new winchEngage(m_climb,1,
-          () -> m_controller.getXButton(),
-          () -> m_controller.getBButton()
-          ));
-    climbMode.and(rightTrig.or(leftTrig)).whileActiveOnce(new climbEngage(m_climb,-1,
-          () -> { return (m_controller.getTriggerAxis(GenericHID.Hand.kLeft)>trigEpsilon); },
-          () -> { return (m_controller.getTriggerAxis(GenericHID.Hand.kRight)>trigEpsilon); }
-          ));
-    climbMode.and(rightBump.or(leftBump)).whileActiveOnce(new climbEngage(m_climb,1,() -> m_controller.getBumper(GenericHID.Hand.kLeft),() -> m_controller.getBumper(GenericHID.Hand.kRight)));
-    climbMode.and(buttonY.and(buttonX.or(buttonB))).whileActiveOnce(new winchEngage(m_climb,-1,() -> m_controller.getXButton(),() -> m_controller.getBButton()));
+    buttonA.whileActiveOnce(new intakeEngage(m_in, 1));
+    buttonX.whileActiveOnce(new intakeEngage(m_in, -1));
+    buttonB.whileActiveOnce(new storageEngage(m_store, 1));
+    buttonY.whileActiveOnce(new deliveryEngage(m_delivery, 1));
+    leftBump.whileActiveOnce(new armEngage(m_arm, 1));
+    leftTrig.whileActiveOnce(new armEngage(m_arm, -1));
+    rightTrig.whileActiveOnce(new outtakeEngage(m_out, 1));
 
   }
 

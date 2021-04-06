@@ -12,13 +12,13 @@ import frc.robot.subsystems.limelight;
 
 public class GalacticAutoDetect extends CommandBase {
   
-  drive m_drive;
-  limelight m_lime;
-  driveSensors m_gyro;
-  boolean flag;
-  double timer;
-  double angle;
-  double prev_angle;
+  private drive m_drive;
+  private limelight m_lime;
+  private driveSensors m_gyro;
+  private boolean flag;
+  private double timer;
+  private double angle;
+  private double prev_angle;
 
   public GalacticAutoDetect(drive subsystem1, limelight subsystem2, driveSensors subsystem3) {
     addRequirements(subsystem1);

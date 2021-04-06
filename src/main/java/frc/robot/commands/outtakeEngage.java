@@ -9,21 +9,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.outtake;
-import frc.robot.subsystems.limelight;
 
 public class outtakeEngage extends CommandBase {
   /**
    * Creates a new outtakeEngage.
    */
   private outtake m_out = null;
-  private limelight m_lime = null;
   private int direction;
 
-  public outtakeEngage(outtake subsystem, limelight subsystem2, int dir) {
+  public outtakeEngage(outtake subsystem, int dir) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_out = subsystem;
-    m_lime = subsystem2;
-    
     direction = dir;
     addRequirements(m_out);
   }
@@ -36,7 +32,7 @@ public class outtakeEngage extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_out.driveOuttake(direction*m_lime.getPerfectSpeed());
+    m_out.driveOuttake(direction);
   }
 
   // Called once the command ends or is interrupted.

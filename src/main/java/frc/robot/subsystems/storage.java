@@ -14,18 +14,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class storage extends SubsystemBase {
-  private WPI_VictorSPX m_storage = null;
+  private WPI_VictorSPX m_storage1;
+  private WPI_VictorSPX m_storage2;
   private double maxStorage = 1;
   private double direction;
 
   public storage() {
     direction = 0;
-    m_storage = new WPI_VictorSPX(Constants.storage);
+    m_storage1 = new WPI_VictorSPX(Constants.storage1);
+    m_storage2 = new WPI_VictorSPX(Constants.storage2);
   }
 
   public void storageDrive(double speed){
     direction = speed;
-    m_storage.set(-speed*maxStorage);
+    m_storage1.set(-speed*maxStorage);
+    m_storage2.set(-speed*maxStorage);
   }
 
   public double getDirection(){

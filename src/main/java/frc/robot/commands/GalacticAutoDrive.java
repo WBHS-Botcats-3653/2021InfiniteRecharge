@@ -11,18 +11,15 @@ import frc.robot.subsystems.limelight;
 
 public class GalacticAutoDrive extends CommandBase {
 
-  drive m_drive;
-  driveSensors m_encoders;
-  limelight m_lime;
-  double distance;
-  double inputDist;
-  double mounting_angle;
-  double lime_height;
-  double angle_to_target;
-  double error;
-  double difference;
-  boolean flag;
-  double kP;
+  private drive m_drive;
+  private driveSensors m_encoders;
+  private limelight m_lime;
+  private double distance;
+  private double inputDist;
+  private double error;
+  private double difference;
+  private boolean flag;
+  private double kP;
 
   public GalacticAutoDrive(drive subsystem1, limelight subsystem2, driveSensors subsystem3) {
 

@@ -8,19 +8,18 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.Constants;
-
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.VictorSP;
 
 public class intake extends SubsystemBase {
   private double maxIntake = 1;
-  private WPI_VictorSPX m_intake = null;
+  private VictorSP m_intake = null;
   private double direction;
 
   public intake() {
     direction = 0;
-    m_intake = new WPI_VictorSPX(Constants.intake);
+    m_intake = new VictorSP(Constants.intake);
   }
 
   public void driveIntake(double speed){

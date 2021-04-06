@@ -12,27 +12,27 @@ import frc.robot.subsystems.limelight;
 
 public class GalacticAutoTurn extends CommandBase {
 
-  limelight m_lime;
-  drive m_drive;
-  driveSensors m_gyro;
-  double target;
-  boolean flag;
-  double kP;
-  double kI;
-  double kD;
-  double angle;
-  double tx;
-  double direction;
-  double difference;
-  double error;
-  double proportional;
-  double integral;
-  double derivative;
-  double turnspeed;
-  double prev_error;
-  double prev_angle;
-  double ep;
-  boolean cumulativeRun;
+  private limelight m_lime;
+  private drive m_drive;
+  private driveSensors m_gyro;
+  private double target;
+  private boolean flag;
+  private double kP;
+  private double kI;
+  private double kD;
+  private double angle;
+  private double tx;
+  private  double direction;
+  private double difference;
+  private double error;
+  private double proportional;
+  private double integral;
+  private double derivative;
+  private double turnspeed;
+  private double prev_error;
+  private double prev_angle;
+  private double ep;
+  private boolean cumulativeRun;
 
   /** Creates a new GalacticAuto. */
   public GalacticAutoTurn(drive subsystem1, limelight subsystem2, driveSensors subsystem3, boolean isCumulativeRun) {

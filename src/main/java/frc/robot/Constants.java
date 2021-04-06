@@ -17,48 +17,28 @@ package frc.robot;
  */
 public final class Constants {
 
-    //CAN
-    //  Victor SPXs
+    //  Victor SP PWM IDs
     public static final int leftDriveM = 2;
-    public static final int leftDriveS = 1;
-    public static final int rightDriveM = 3;
-    public static final int rightDriveS = 4;
+    public static final int leftDriveS = 3;
+    public static final int rightDriveM = 0;
+    public static final int rightDriveS = 1;
+    public static final int leftArm = 4;
+    public static final int rightArm = 5;
+    public static final int intake = 6;
 
-    public static final int leftClimb = 7;
-    public static final int rightClimb = 5;
-    public static final int leftWinch = 8;
-    public static final int rightWinch = 6;
-    
-    public static final int controlPanel = 13;
-
-    public static final int intake = 9;
-    public static final int delivery = 10;
-    public static final int storage = 0;
-
-    //  Talon SRXs
+    //TBD CAN IDs (STORAGE, DELIVERY, OUTTAKE)
     public static final int outtake1 = 0;
-    public static final int outtake2 = 1;    
-
-    //PWM
-    public static final int controlPanelLift = 0;
-
-
-    //Analog
-    public static final int ultraMid = 0;
+    public static final int outtake2 = 0;
+    public static final int storage1 = 0;  
+    public static final int storage2 = 0;    
+    public static final int delivery = 0;
 
     //DIO
-    public static final int photoElectricIntake = 0;
-    public static final int photoElectricDelivery = 1;
-    public static final int photoElectricOuttake = 2;
     public static final int leftDriveEncoder1 = 6;
     public static final int leftDriveEncoder2 = 5;
     public static final int rightDriveEncoder1 = 3;
     public static final int rightDriveEncoder2 = 4;
 
-    //Autoaim PID constants
-    public static final double kP = 0.012;
-    public static final double kI = 0.002;
-    public static final double kD = 0.009;
     //Encoder constants
     public static final double pulsesPerRotation = 251.329;
     //4*360 maybe, circumference in inches
@@ -67,16 +47,6 @@ public final class Constants {
     //Drive constants
     public static final double minDrive = 0.6;
     public static final double minTurn = 0.6;
-
-    //Auto constants
-    public static final double autoDrive = -0.8;
-    public static final double shootTiming = 2;
-    public static final double detectionToShoot = 0.25;
-    public static final double threeBallTime = 5;
-
-    //Servo constants
-    public static final double servoTheta1 = 37;
-    public static final double servoTheta2 = 45;
     
     //Limelight constants for getDistance() 
     public static final double MOUNTING_ANGLE = -4.416; //Angle must be negative if camera angle is below the horizontal and positive if not
@@ -90,6 +60,10 @@ public final class Constants {
     public static final double GALACTIC_AUTO_INTAKE_RUNTIME = 3; //(in seconds)
 
     //Detect speed (GALACTIC SEARCH AUTO DETECT)
-	public static final double GALACTIC_AUTO_DETECT_ROTATION_SPEED = -0.5;
+    public static final double GALACTIC_AUTO_DETECT_ROTATION_SPEED = -0.5;
+    
+    //Xbox controller ports
+	public static final int XBOX_CONTROLLER_LEFT_Y_AXIS = 0;
+	public static final int XBOX_CONTROLLER_RIGHT_X_AXIS = 0;
 	
 }

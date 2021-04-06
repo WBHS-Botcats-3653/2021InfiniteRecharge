@@ -10,18 +10,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class limelight extends SubsystemBase {
   //initiates networktable variables
-
-  private NetworkTable table = null;
-  private NetworkTableEntry tx = null;
-  private NetworkTableEntry ty = null;
-  private NetworkTableEntry tv = null;
-
 
   public limelight() {
 
@@ -81,13 +74,7 @@ public class limelight extends SubsystemBase {
   }
 
   public double getShooterDistance(){
-
-
     return 0.0;
-  }
-
-  public double getPerfectSpeed(){
-    return 1;
   }
 
   @Override
