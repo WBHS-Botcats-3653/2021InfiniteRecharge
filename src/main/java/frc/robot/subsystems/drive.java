@@ -50,7 +50,7 @@ public class drive extends SubsystemBase {
   public void differentialDrive(double speed, double angle){
     SmartDashboard.putNumber("speed", speed);
     SmartDashboard.putNumber("rotation", angle);
-    m_drive.arcadeDrive(angle, speed);
+    m_drive.arcadeDrive(angle, -speed);
   }
 
   @Override

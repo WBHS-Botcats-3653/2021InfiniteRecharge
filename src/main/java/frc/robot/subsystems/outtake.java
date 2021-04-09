@@ -16,7 +16,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class outtake extends SubsystemBase {
   private WPI_VictorSPX m_outtake1 = null;
   private WPI_VictorSPX m_outtake2 = null;
-  private double maxOut = 1;
+  private double maxOut = 0.7;
 
   public outtake() {
     m_outtake1 = new WPI_VictorSPX(Constants.outtake1);
