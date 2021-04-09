@@ -39,7 +39,7 @@ public class GalacticAutoDrive extends CommandBase {
     m_drive = subsystem1;
     m_lime = subsystem2;
     m_encoders = subsystem3;
-    kP = 1.25;
+    kP = 1.35;
     inputDist = setDistance;
 
     addRequirements(subsystem1);

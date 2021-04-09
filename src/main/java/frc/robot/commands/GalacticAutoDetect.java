@@ -19,6 +19,7 @@ public class GalacticAutoDetect extends CommandBase {
   double timer;
   double angle;
   double prev_angle;
+  double rotationSpeed;
 
   public GalacticAutoDetect(drive subsystem1, limelight subsystem2, driveSensors subsystem3) {
     addRequirements(subsystem1);
@@ -35,6 +36,7 @@ public class GalacticAutoDetect extends CommandBase {
     flag = false;
     timer = 0;
     m_gyro.resetGyro();
+    rotationSpeed = 0;
 
   }
 
@@ -49,13 +51,15 @@ public class GalacticAutoDetect extends CommandBase {
 
     if(!m_lime.validTarget()) {
 
-      m_drive.differentialDrive(0, Constants.GALACTIC_AUTO_DETECT_ROTATION_SPEED);
+      rotationSpeed = Constants.GALACTIC_AUTO_DETECT_ROTATION_SPEED;
 
     } else {
 
-      m_drive.differentialDrive(0, 0);
+      rotationSpeed = 0;
 
     }
+
+    m_drive.differentialDrive(0, rotationSpeed);
 
     if(m_lime.validTarget() && timer > 2) {
 
