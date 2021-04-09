@@ -39,11 +39,11 @@ public class GalacticAutoTurn extends CommandBase {
     m_drive = subsystem1;
     m_lime = subsystem2;
     m_gyro = subsystem3;
-    kP = 0.7;
+    kP = 0.7; //PID Constants 
     kD = 1.25;
     kI = 0.00455;
     ep = 0.005;
-    cumulativeRun = isCumulativeRun;
+    cumulativeRun = isCumulativeRun; //Set to true if the auto turn command is intended to turn back to the original position
     addRequirements(subsystem1);
   }
 
@@ -86,20 +86,24 @@ public class GalacticAutoTurn extends CommandBase {
     angle = m_gyro.getAngle();  
     m_gyro.accumulateAngle(angle - prev_angle); //Angle accumulation for reset
 
-    difference = Math.abs(target - angle);
+    //Determines the current distance to the target during each iteration
+    difference = Math.abs(target - angle); 
 
+    /* 
+    Determines the direction the robot should turn (-1 or 1) as well
+    as the current error (distance from the target) depending on
+    whether it is a cumulative run or using the limelight.
+    */
     if(cumulativeRun) {
-
-      direction = (angle - target)/difference;
-      error = difference/Math.abs(target);
+      direction = (angle - target)/difference; 
+      error = difference/Math.abs(target); 
     } else {
-
-      tx = -m_lime.getX(); //negative because turning counterclockwise is positive, but limelight is opposite
-      direction = tx/Math.abs(tx);
-      error = difference/30;
-
+      tx = -m_lime.getX(); 
+      direction = tx/Math.abs(tx); 
+      error = difference/30; 
     } 
     
+    //PID
     proportional = error;
     integral += error;
     derivative = error - prev_error;
@@ -112,7 +116,7 @@ public class GalacticAutoTurn extends CommandBase {
 
     if(cumulativeRun) {
 
-      //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
+      //If angle is within 1 degree of original position and error didn't much (ep = 0.005), command ends
       if(difference < 1.2 && Math.abs(derivative) <= ep) {
 
         flag = true;
@@ -121,7 +125,7 @@ public class GalacticAutoTurn extends CommandBase {
 
     } else {
 
-      //If angle is within 1 degree of Power Cell and error didn't change (ep = 0), command ends
+      //If angle is within 1 degree of Power Cell and error didn't change much (ep = 0.005), command ends
       if(Math.abs(m_lime.getX()) < 1 && Math.abs(derivative) <= ep) {
 
         flag = true;

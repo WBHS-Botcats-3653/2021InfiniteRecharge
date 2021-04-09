@@ -48,6 +48,7 @@ public class GalacticAutoDrive extends CommandBase {
   @Override
   public void initialize() {
 
+    //Calculates distance to move depending on whether a distance was input into the constructor
     if(inputDist != 0.0) {
 
       distance = inputDist;
@@ -67,6 +68,7 @@ public class GalacticAutoDrive extends CommandBase {
   @Override
   public void execute() {
 
+    //Calculates the current distance to the target distance during each iteration
     difference = distance - m_encoders.getRightDistance();
     error = difference/distance;
 

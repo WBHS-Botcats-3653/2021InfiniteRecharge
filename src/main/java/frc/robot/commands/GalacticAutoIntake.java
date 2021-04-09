@@ -45,6 +45,11 @@ public class GalacticAutoIntake extends CommandBase {
 
     timer += 0.02;
 
+    /*
+    Ball number will determine what mechanisms will run 
+    and how far into the storage the ball will go to make 
+    space for subsequent balls during the auto.
+    */
     if (ballNum == 1) {
 
       m_in.driveIntake(Constants.GALACTIC_AUTO_INTAKE_SPEED);
@@ -68,7 +73,7 @@ public class GalacticAutoIntake extends CommandBase {
     }
 
 
-    if(timer >= Constants.GALACTIC_AUTO_INTAKE_RUNTIME) {
+    if(timer >= Constants.GALACTIC_AUTO_INTAKE_RUNTIME) { //Intake runs for 3 seconds (Current constant value) and then command ends
       flag = true;
     }
 
